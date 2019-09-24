@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sysu.goingpub.dao.JournalMapper">
+  <resultMap id="BaseResultMap" type="com.sysu.goingpub.model.Journal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ISSN" jdbcType="VARCHAR" property="issn" />
+    <result column="Journal" jdbcType="VARCHAR" property="journal" />
+    <result column="Abbr_Name" jdbcType="VARCHAR" property="abbrName" />
+    <result column="Is_SCI" jdbcType="VARCHAR" property="isSci" />
+    <result column="IF2018" jdbcType="DOUBLE" property="if2018" />
+    <result column="IF_5year" jdbcType="DOUBLE" property="if5year" />
+    <result column="Self_citing" jdbcType="DOUBLE" property="selfCiting" />
+    <result column="H_Index" jdbcType="INTEGER" property="hIndex" />
+    <result column="CiteScore" jdbcType="DOUBLE" property="citescore" />
+    <result column="Division" jdbcType="VARCHAR" property="division" />
+    <result column="Category" jdbcType="VARCHAR" property="category" />
+    <result column="Discipline" jdbcType="VARCHAR" property="discipline" />
+    <result column="IsTop" jdbcType="VARCHAR" property="istop" />
+    <result column="IsReview" jdbcType="VARCHAR" property="isreview" />
+    <result column="Publication_Cycle" jdbcType="VARCHAR" property="publicationCycle" />
+    <result column="Article_NO_per_year" jdbcType="INTEGER" property="articleNoPerYear" />
+    <result column="Publication_year" jdbcType="INTEGER" property="publicationYear" />
+    <result column="Region" jdbcType="VARCHAR" property="region" />
+    <result column="OA" jdbcType="VARCHAR" property="oa" />
+    <result column="Employment" jdbcType="VARCHAR" property="employment" />
+    <result column="Refereeing" jdbcType="VARCHAR" property="refereeing" />
+    <result column="View" jdbcType="INTEGER" property="view" />
+    <result column="Url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, ISSN, Journal, Abbr_Name, Is_SCI, IF2018, IF_5year, Self_citing, H_Index, CiteScore, 
+    Division, Category, Discipline, IsTop, IsReview, Publication_Cycle, Article_NO_per_year, 
+    Publication_year, Region, OA, Employment, Refereeing, View, Url
+  </sql>
+  <select id="selectByExample" parameterType="com.sysu.goingpub.model.JournalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from journal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0">
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from journal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from journal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sysu.goingpub.model.JournalExample">
+    delete from journal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sysu.goingpub.model.Journal">
+    insert into journal (id, ISSN, Journal, 
+      Abbr_Name, Is_SCI, IF2018, 
+      IF_5year, Self_citing, H_Index, 
+      CiteScore, Division, Category, 
+      Discipline, IsTop, IsReview, 
+      Publication_Cycle, Article_NO_per_year, Publication_year, 
+      Region, OA, Employment, 
+      Refereeing, View, Url
+      )
+    values (#{id,jdbcType=INTEGER}, #{issn,jdbcType=VARCHAR}, #{journal,jdbcType=VARCHAR}, 
+      #{abbrName,jdbcType=VARCHAR}, #{isSci,jdbcType=VARCHAR}, #{if2018,jdbcType=DOUBLE}, 
+      #{if5year,jdbcType=DOUBLE}, #{selfCiting,jdbcType=DOUBLE}, #{hIndex,jdbcType=INTEGER}, 
+      #{citescore,jdbcType=DOUBLE}, #{division,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
+      #{discipline,jdbcType=VARCHAR}, #{istop,jdbcType=VARCHAR}, #{isreview,jdbcType=VARCHAR}, 
+      #{publicationCycle,jdbcType=VARCHAR}, #{articleNoPerYear,jdbcType=INTEGER}, #{publicationYear,jdbcType=INTEGER}, 
+      #{region,jdbcType=VARCHAR}, #{oa,jdbcType=VARCHAR}, #{employment,jdbcType=VARCHAR}, 
+      #{refereeing,jdbcType=VARCHAR}, #{view,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sysu.goingpub.model.Journal">
+    insert into journal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="issn != null">
+        ISSN,
+      </if>
+      <if test="journal != null">
+        Journal,
+      </if>
+      <if test="abbrName != null">
+        Abbr_Name,
+      </if>
+      <if test="isSci != null">
+        Is_SCI,
+      </if>
+      <if test="if2018 != null">
+        IF2018,
+      </if>
+      <if test="if5year != null">
+        IF_5year,
+      </if>
+      <if test="selfCiting != null">
+        Self_citing,
+      </if>
+      <if test="hIndex != null">
+        H_Index,
+      </if>
+      <if test="citescore != null">
+        CiteScore,
+      </if>
+      <if test="division != null">
+        Division,
+      </if>
+      <if test="category != null">
+        Category,
+      </if>
+      <if test="discipline != null">
+        Discipline,
+      </if>
+      <if test="istop != null">
+        IsTop,
+      </if>
+      <if test="isreview != null">
+        IsReview,
+      </if>
+      <if test="publicationCycle != null">
+        Publication_Cycle,
+      </if>
+      <if test="articleNoPerYear != null">
+        Article_NO_per_year,
+      </if>
+      <if test="publicationYear != null">
+        Publication_year,
+      </if>
+      <if test="region != null">
+        Region,
+      </if>
+      <if test="oa != null">
+        OA,
+      </if>
+      <if test="employment != null">
+        Employment,
+      </if>
+      <if test="refereeing != null">
+        Refereeing,
+      </if>
+      <if test="view != null">
+        View,
+      </if>
+      <if test="url != null">
+        Url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="issn != null">
+        #{issn,jdbcType=VARCHAR},
+      </if>
+      <if test="journal != null">
+        #{journal,jdbcType=VARCHAR},
+      </if>
+      <if test="abbrName != null">
+        #{abbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="isSci != null">
+        #{isSci,jdbcType=VARCHAR},
+      </if>
+      <if test="if2018 != null">
+        #{if2018,jdbcType=DOUBLE},
+      </if>
+      <if test="if5year != null">
+        #{if5year,jdbcType=DOUBLE},
+      </if>
+      <if test="selfCiting != null">
+        #{selfCiting,jdbcType=DOUBLE},
+      </if>
+      <if test="hIndex != null">
+        #{hIndex,jdbcType=INTEGER},
+      </if>
+      <if test="citescore != null">
+        #{citescore,jdbcType=DOUBLE},
+      </if>
+      <if test="division != null">
+        #{division,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="discipline != null">
+        #{discipline,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null">
+        #{istop,jdbcType=VARCHAR},
+      </if>
+      <if test="isreview != null">
+        #{isreview,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationCycle != null">
+        #{publicationCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleNoPerYear != null">
+        #{articleNoPerYear,jdbcType=INTEGER},
+      </if>
+      <if test="publicationYear != null">
+        #{publicationYear,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="oa != null">
+        #{oa,jdbcType=VARCHAR},
+      </if>
+      <if test="employment != null">
+        #{employment,jdbcType=VARCHAR},
+      </if>
+      <if test="refereeing != null">
+        #{refereeing,jdbcType=VARCHAR},
+      </if>
+      <if test="view != null">
+        #{view,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sysu.goingpub.model.JournalExample" resultType="java.lang.Long">
+    select count(*) from journal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update journal
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.issn != null">
+        ISSN = #{record.issn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.journal != null">
+        Journal = #{record.journal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.abbrName != null">
+        Abbr_Name = #{record.abbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSci != null">
+        Is_SCI = #{record.isSci,jdbcType=VARCHAR},
+      </if>
+      <if test="record.if2018 != null">
+        IF2018 = #{record.if2018,jdbcType=DOUBLE},
+      </if>
+      <if test="record.if5year != null">
+        IF_5year = #{record.if5year,jdbcType=DOUBLE},
+      </if>
+      <if test="record.selfCiting != null">
+        Self_citing = #{record.selfCiting,jdbcType=DOUBLE},
+      </if>
+      <if test="record.hIndex != null">
+        H_Index = #{record.hIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.citescore != null">
+        CiteScore = #{record.citescore,jdbcType=DOUBLE},
+      </if>
+      <if test="record.division != null">
+        Division = #{record.division,jdbcType=VARCHAR},
+      </if>
+      <if test="record.category != null">
+        Category = #{record.category,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discipline != null">
+        Discipline = #{record.discipline,jdbcType=VARCHAR},
+      </if>
+      <if test="record.istop != null">
+        IsTop = #{record.istop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isreview != null">
+        IsReview = #{record.isreview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publicationCycle != null">
+        Publication_Cycle = #{record.publicationCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleNoPerYear != null">
+        Article_NO_per_year = #{record.articleNoPerYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.publicationYear != null">
+        Publication_year = #{record.publicationYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.region != null">
+        Region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oa != null">
+        OA = #{record.oa,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employment != null">
+        Employment = #{record.employment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refereeing != null">
+        Refereeing = #{record.refereeing,jdbcType=VARCHAR},
+      </if>
+      <if test="record.view != null">
+        View = #{record.view,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null">
+        Url = #{record.url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update journal
+    set id = #{record.id,jdbcType=INTEGER},
+      ISSN = #{record.issn,jdbcType=VARCHAR},
+      Journal = #{record.journal,jdbcType=VARCHAR},
+      Abbr_Name = #{record.abbrName,jdbcType=VARCHAR},
+      Is_SCI = #{record.isSci,jdbcType=VARCHAR},
+      IF2018 = #{record.if2018,jdbcType=DOUBLE},
+      IF_5year = #{record.if5year,jdbcType=DOUBLE},
+      Self_citing = #{record.selfCiting,jdbcType=DOUBLE},
+      H_Index = #{record.hIndex,jdbcType=INTEGER},
+      CiteScore = #{record.citescore,jdbcType=DOUBLE},
+      Division = #{record.division,jdbcType=VARCHAR},
+      Category = #{record.category,jdbcType=VARCHAR},
+      Discipline = #{record.discipline,jdbcType=VARCHAR},
+      IsTop = #{record.istop,jdbcType=VARCHAR},
+      IsReview = #{record.isreview,jdbcType=VARCHAR},
+      Publication_Cycle = #{record.publicationCycle,jdbcType=VARCHAR},
+      Article_NO_per_year = #{record.articleNoPerYear,jdbcType=INTEGER},
+      Publication_year = #{record.publicationYear,jdbcType=INTEGER},
+      Region = #{record.region,jdbcType=VARCHAR},
+      OA = #{record.oa,jdbcType=VARCHAR},
+      Employment = #{record.employment,jdbcType=VARCHAR},
+      Refereeing = #{record.refereeing,jdbcType=VARCHAR},
+      View = #{record.view,jdbcType=INTEGER},
+      Url = #{record.url,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sysu.goingpub.model.Journal">
+    update journal
+    <set>
+      <if test="issn != null">
+        ISSN = #{issn,jdbcType=VARCHAR},
+      </if>
+      <if test="journal != null">
+        Journal = #{journal,jdbcType=VARCHAR},
+      </if>
+      <if test="abbrName != null">
+        Abbr_Name = #{abbrName,jdbcType=VARCHAR},
+      </if>
+      <if test="isSci != null">
+        Is_SCI = #{isSci,jdbcType=VARCHAR},
+      </if>
+      <if test="if2018 != null">
+        IF2018 = #{if2018,jdbcType=DOUBLE},
+      </if>
+      <if test="if5year != null">
+        IF_5year = #{if5year,jdbcType=DOUBLE},
+      </if>
+      <if test="selfCiting != null">
+        Self_citing = #{selfCiting,jdbcType=DOUBLE},
+      </if>
+      <if test="hIndex != null">
+        H_Index = #{hIndex,jdbcType=INTEGER},
+      </if>
+      <if test="citescore != null">
+        CiteScore = #{citescore,jdbcType=DOUBLE},
+      </if>
+      <if test="division != null">
+        Division = #{division,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        Category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="discipline != null">
+        Discipline = #{discipline,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null">
+        IsTop = #{istop,jdbcType=VARCHAR},
+      </if>
+      <if test="isreview != null">
+        IsReview = #{isreview,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationCycle != null">
+        Publication_Cycle = #{publicationCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleNoPerYear != null">
+        Article_NO_per_year = #{articleNoPerYear,jdbcType=INTEGER},
+      </if>
+      <if test="publicationYear != null">
+        Publication_year = #{publicationYear,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        Region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="oa != null">
+        OA = #{oa,jdbcType=VARCHAR},
+      </if>
+      <if test="employment != null">
+        Employment = #{employment,jdbcType=VARCHAR},
+      </if>
+      <if test="refereeing != null">
+        Refereeing = #{refereeing,jdbcType=VARCHAR},
+      </if>
+      <if test="view != null">
+        View = #{view,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        Url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sysu.goingpub.model.Journal">
+    update journal
+    set ISSN = #{issn,jdbcType=VARCHAR},
+      Journal = #{journal,jdbcType=VARCHAR},
+      Abbr_Name = #{abbrName,jdbcType=VARCHAR},
+      Is_SCI = #{isSci,jdbcType=VARCHAR},
+      IF2018 = #{if2018,jdbcType=DOUBLE},
+      IF_5year = #{if5year,jdbcType=DOUBLE},
+      Self_citing = #{selfCiting,jdbcType=DOUBLE},
+      H_Index = #{hIndex,jdbcType=INTEGER},
+      CiteScore = #{citescore,jdbcType=DOUBLE},
+      Division = #{division,jdbcType=VARCHAR},
+      Category = #{category,jdbcType=VARCHAR},
+      Discipline = #{discipline,jdbcType=VARCHAR},
+      IsTop = #{istop,jdbcType=VARCHAR},
+      IsReview = #{isreview,jdbcType=VARCHAR},
+      Publication_Cycle = #{publicationCycle,jdbcType=VARCHAR},
+      Article_NO_per_year = #{articleNoPerYear,jdbcType=INTEGER},
+      Publication_year = #{publicationYear,jdbcType=INTEGER},
+      Region = #{region,jdbcType=VARCHAR},
+      OA = #{oa,jdbcType=VARCHAR},
+      Employment = #{employment,jdbcType=VARCHAR},
+      Refereeing = #{refereeing,jdbcType=VARCHAR},
+      View = #{view,jdbcType=INTEGER},
+      Url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
